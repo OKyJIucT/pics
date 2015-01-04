@@ -1,3 +1,4 @@
 .idea/
 /framework/
 /assets/
+/protected/config/database.php

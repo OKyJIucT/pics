@@ -2,3 +2,4 @@
 /framework/
 /assets/
 /protected/config/database.php
+/protected/config/gii.php

@@ -2,4 +2,4 @@
 /framework/
 /assets/
 /static/
-/protected/config/
+/protected/config/database.php

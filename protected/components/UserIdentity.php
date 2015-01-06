@@ -7,28 +7,39 @@
  */
 class UserIdentity extends CUserIdentity
 {
-    /**
-     * Authenticates a user.
-     * The example implementation makes sure if the username and password
-     * are both 'demo'.
-     * In practical applications, this should be changed to authenticate
-     * against some persistent user identity storage (e.g. database).
-     * @return boolean whether authentication succeeds.
-     */
+    // Будем хранить id.
+    protected $_id;
+
+    // Данный метод вызывается один раз при аутентификации пользователя.
     public function authenticate()
     {
-        $users = array(
-            // username => password
-            'demo' => 'demo',
-            'admin' => 'admin',
-        );
-        if (!isset($users[$this->username]))
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        elseif ($users[$this->username] !== $this->password)
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        else
+        // Производим стандартную аутентификацию, описанную в руководстве.
+        $user = Users::model()->find('LOWER(username)=?', array(strtolower($this->username)));
+
+        if (!$user)
+            $user = Users::model()->find('LOWER(email)=?', array(strtolower($this->username)));
+
+        if (crypt($this->password, $user->password) === $user->password) {
+            // В качестве идентификатора будем использовать id, а не username,
+            // как это определено по умолчанию. Обязательно нужно переопределить
+            // метод getId(см. ниже).
+            $this->_id = $user->id;
+
+            $this->setState('username', $user->username);
+            $this->setState('email', $user->email);
+            $this->setState('role', $user->role);
+
             $this->errorCode = self::ERROR_NONE;
 
+        } else {
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
+        }
+
         return !$this->errorCode;
+    }
+
+    public function getId()
+    {
+        return $this->_id;
     }
 }

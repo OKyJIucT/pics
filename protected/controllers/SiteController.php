@@ -93,6 +93,36 @@ class SiteController extends Controller
         $this->render('login', array('model' => $model));
     }
 
+    public function actionReg()
+    {
+        $model = new Users;
+        $model->scenario = 'reg';
+
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'users-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (isset($_POST['Users'])) {
+
+            $model->attributes = $_POST['Users'];
+            $model->password = Users::cryptPass($_POST['Users']['password']);
+
+            if ($model->save() && $model->validate()) {
+
+                $auth = new LoginForm;
+                $auth->attributes = $_POST['Users'];
+
+                if ($auth->validate() && $auth->login())
+                    $this->redirect('/');
+            }
+
+            $model->password = $_POST['Users']['password'];
+        }
+
+        $this->render('reg', array('model' => $model));
+    }
+
     /**
      * Logs out the current user and redirect to homepage.
      */

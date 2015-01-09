@@ -18,6 +18,14 @@ return array(
     'modules' => array(
         // uncomment the following to enable the Gii tool
         'gii' => require(dirname(__FILE__) . '/gii.php'),
+        'rbac' => array(
+            'class' => 'application.modules.rbacui.RbacuiModule',
+            'userClass' => 'Users',
+            'userIdColumn' => 'id',
+            'userNameColumn' => 'username',
+            'rbacUiAdmin' => true,
+            'rbacUiAssign' => true,
+        ),
     ),
 
     // application components
@@ -46,7 +54,10 @@ return array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
-
+        'authManager' => array(
+            'class' => 'CDbAuthManager',
+            'connectionID' => 'db',
+        ),
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(

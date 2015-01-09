@@ -124,10 +124,14 @@
                             <li><a href="/reg">Регистрация</a></li>
                         <?php else: ?>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= Yii::app()->user->username; ?> <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle"
+                                   data-toggle="dropdown"><?= Yii::app()->user->username; ?> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Профиль</a></li>
-                                    <li><a href="#">Избранное</a></li>
+                                    <?php if (Y::checkAccess('admin')): ?>
+                                        <li><a href="/rbac"><i class="fa fa-lock"></i> Роли</a></li>
+                                    <?php endif; ?>
+                                    <li><a href="#"><i class="fa fa-user"></i> Профиль</a></li>
+                                    <li><a href="#"><i class="fa fa-star-o"></i> Избранное</a></li>
                                     <li><a href="/logout"><i class="fa fa-power-off"></i> Выход</a></li>
                                 </ul>
                             </li>

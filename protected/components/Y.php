@@ -884,62 +884,6 @@ class Y
         return $string . "...";
     }
 
-    /**
-     * Считаем, сколько абзацев переведено
-     * @param type $chapter
-     * @return type
-     */
-    public static function getProcess($chapter)
-    {
-        $cacheId = C::prefix('getProcess', $chapter);
-
-        $count = C::get($cacheId);
-        if ($count === false) {
-
-            $criteria = new CDbCriteria();
-            $criteria->condition = 'chapter_id = :chapter_id';
-            $criteria->params = array(':chapter_id' => $chapter);
-
-            $parts = Parts::model()->findAll($criteria);
-
-            $result = array();
-
-            foreach ($parts as $part) {
-                $criteria = new CDbCriteria();
-                $criteria->condition = 'part_id = :part_id';
-                $criteria->params = array(':part_id' => $part->id);
-
-                $version = Version::model()->findAll($criteria);
-
-                if ($version && $version != '')
-                    $result[$part->id] = $version;
-            }
-
-            $count = count($result);
-
-            C::set($cacheId, $count, '', new Tags('countParts', 'chapter_' . $chapter));
-        }
-
-        return $count;
-    }
-
-    /**
-     * Счетчик количества документов
-     * @return type
-     */
-    public static function countDocs()
-    {
-        $cacheId = C::prefix('countDocs');
-
-        $count = C::get($cacheId);
-        if ($count === false) {
-
-            $count = Docs::model()->count();
-            C::set($cacheId, $count);
-        }
-
-        return $count ? $count : 0;
-    }
 
     // делаем кликабельными ссылки в истории
     public static function urlClick($str)
@@ -958,57 +902,28 @@ class Y
         );
     }
 
-    /**
-     * Счетчик количества документов
-     * @return type
-     */
-    public static function countTickets()
+    public static function saveImage($img, $fileName = '', $type = 'crop')
     {
-
-        if (Y::hasAccess('administrator')) {
-            $criteria = new CDbCriteria();
-            $criteria->condition = 'support_read = 0';
-            $count = Support::model()->count($criteria);
-        } else {
-            $criteria = new CDbCriteria();
-            $criteria->condition = 'user_read = 0 AND user_id = :user_id';
-            $criteria->params = array(':user_id' => Yii::app()->user->id);
-            $count = Support::model()->count($criteria);
+        if ($fileName == '') {
+            $fileName = Y::getHash() . '.jpg';
         }
 
-        if ($count == 0)
-            return '';
-        else
-            return '<span class="notification">' . $count . '</span>';
-    }
+        $sub = date('Y/m/d/', time());
+        $imgSize = getimagesize($img);
 
-    /**
-     * Статусы тикетов в колонке справа
-     * @param type $ticket
-     * @return string
-     */
-    public static function ticketStatus($ticket)
-    {
+        $dirWallpappers = 'static/wallpapers/' . $sub;
+        $dirThumbs = 'static/thumbs/' . $sub;
 
-        if ($ticket->status == '2') {
-            $return = '<span class="label label-dark pull-right">Закрыт</span>';
+        if (!is_dir($dirWallpappers)) mkdir($dirWallpappers, 0755, true);
+        if (!is_dir($dirThumbs)) mkdir($dirThumbs, 0755, true);
 
-            return $return;
-        }
+        $resizeImg = new Resize($img);
+        $resizeImg->resizeImage(700, 440, $type);
+        $resizeImg->saveImage($dirThumbs . $fileName, 80);
 
-        if (Y::hasAccess('administrator')) {
-            if ($ticket->support_read == '0')
-                $return = '<span class="label label-lime pull-right">Есть ответ</span>';
-            else
-                $return = '<span class="label label-teal pull-right">В обработке</span>';
-        } else {
-            if ($ticket->user_read == '0')
-                $return = '<span class="label label-lime pull-right">Есть ответ</span>';
-            else
-                $return = '<span class="label label-teal pull-right">В обработке</span>';
-        }
-
-        return $return;
+        $resizeImg = new Resize($img);
+        $resizeImg->resizeImage($imgSize[0], $imgSize[1], $type);
+        $resizeImg->saveImage($dirWallpappers . $fileName, 80);
     }
 
 }

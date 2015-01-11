@@ -1,5 +1,8 @@
 <?php
 
+require_once 'protected/vendor/autoload.php';
+use ColorThief\ColorThief;
+
 class SiteController extends Controller
 {
     /**
@@ -27,13 +30,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $imgResized = 'http://marijazaric.com/minimalist-theme/images/gallery3.jpg';
+        $img = 'http://img3.goodfon.ru/wallpaper/big/d/50/abstrakciya-sladost-pirozhnoe-1575.jpg';
+
+        $colors = ColorThief::getPalette($img);
+
+        $array = array();
+
+        foreach ($colors as $color) {
+            $array[] = Y::rgb2hexRound($color);
+        }
 
         //Y::saveImage($imgResized);
 
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+        $this->render('index', array('colors' => $array, 'img' => $img));
     }
 
     /**
@@ -111,6 +120,25 @@ class SiteController extends Controller
     {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
+    }
+
+    /**
+     * Logs out the current user and redirect to homepage.
+     */
+    public function actionTest()
+    {
+        Yii::import("xupload.models.XUploadForm");
+        $photos = new XUploadForm;
+
+        $this->render('test', array('model' => $photos));
+    }
+
+    public function actionUploads()
+    {
+        $thumbs = CUploadedFile::getInstancesByName('files');
+        $result = Image::saveImage($thumbs, $category_id);
+
+        echo $result;
     }
 
 }

@@ -17,6 +17,7 @@
         );
 
         Yii::app()->clientScript->registerPackage('jquery');
+        Yii::app()->clientScript->registerPackage('jquery-ui');
 
         Yii::app()->clientScript->registerScriptFile(
             Yii::app()->assetManager->publish(
@@ -24,6 +25,9 @@
             ), CClientScript::POS_END
         );
         ?>
+
+        <link rel="stylesheet" href="/upload/css/jquery.fileupload.css">
+        <link rel="stylesheet" href="/upload/css/jquery.fileupload-ui.css">
 
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>

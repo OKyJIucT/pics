@@ -14,7 +14,9 @@ return array(
         'application.models.*',
         'application.components.*',
     ),
-
+    'aliases' => array(
+        'xupload' => 'ext.vendor.asgaroth.xupload'
+    ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
         'gii' => require(dirname(__FILE__) . '/gii.php'),
@@ -40,7 +42,7 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '' => 'site/index',
-                '<action:(login|logout|reg)>' => 'site/<action>',
+                '<action:(login|logout|reg|test)>' => 'site/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

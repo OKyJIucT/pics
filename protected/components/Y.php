@@ -825,33 +825,6 @@ class Y
         return $pass;
     }
 
-    /**
-     * Создаем папку по текущей дате и возвращаем к ней путь
-     * @return string
-     */
-    public static function getDir($date = false, $startDir = false)
-    {
-
-        $year = date('Y', time());
-        $month = date('m', time());
-        $day = date('d', time());
-
-        $dir = '/' . $year . '/' . $month . '/' . $day . '/';
-
-        if ($startDir)
-            $dir = '/' . $startDir . '/' . $dir;
-
-        $sub = Yii::app()->basePath . '/..' . $dir;
-
-        if (!$date) {
-            if (!is_dir($sub))
-                mkdir($sub, 0755, true);
-
-            return $sub;
-        } else
-            return date("/Y/m/d/", $date);
-    }
-
     public static function getHash()
     {
         return hash('crc32b', strrev(md5(time() . rand(100000, 9999999))));
@@ -908,8 +881,9 @@ class Y
             $fileName = Y::getHash() . '.jpg';
         }
 
-        $sub = date('Y/m/d/', time());
         $imgSize = getimagesize($img);
+
+        $sub = date('Y/m/d/', time());
 
         $dirWallpappers = 'static/wallpapers/' . $sub;
         $dirThumbs = 'static/thumbs/' . $sub;
@@ -924,6 +898,63 @@ class Y
         $resizeImg = new Resize($img);
         $resizeImg->resizeImage($imgSize[0], $imgSize[1], $type);
         $resizeImg->saveImage($dirWallpappers . $fileName, 80);
+    }
+
+    public static function createThumb($path, $pathThumb, $name)
+    {
+        $resizeImg = new Resize($path . $name);
+        $resizeImg->resizeImage(700, 440, 'crop');
+        $resizeImg->saveImage($pathThumb . $name, 80);
+    }
+
+
+    /**
+     * Получаем путь к папке с загружаемыми картинками
+     * @param null $sub
+     * @param $path
+     * @return bool|null|string
+     */
+    public static function getDir($sub = false, $path)
+    {
+        if (!$sub) $sub = time();
+        $sub = date('Y/m/d/', $sub);
+
+        if ($path == 'walpappers') {
+            $dirWallpappers = 'static/wallpapers/' . $sub;
+            if (!is_dir($dirWallpappers)) mkdir($dirWallpappers, 0755, true);
+
+            return $dirWallpappers;
+        }
+
+        if ($path == 'thumbs') {
+            $dirThumbs = 'static/thumbs/' . $sub;
+            if (!is_dir($dirThumbs)) mkdir($dirThumbs, 0755, true);
+
+            return $dirThumbs;
+        }
+
+        return $sub;
+    }
+
+    public static function rgb2hex($rgb)
+    {
+        $hex = "#";
+        foreach ($rgb as $color) {
+            $hex .= str_pad(dechex($color), 2, "0", STR_PAD_LEFT);
+        }
+
+        return $hex;
+    }
+
+    public static function rgb2hexRound($rgb)
+    {
+        $hex = "#";
+        foreach ($rgb as $color) {
+            $dec = round($color / 8) * 8;
+            $hex .= str_pad(dechex($dec), 2, "0", STR_PAD_LEFT);
+        }
+
+        return $hex;
     }
 
 }

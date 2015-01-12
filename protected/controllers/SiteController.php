@@ -6,20 +6,34 @@ use ColorThief\ColorThief;
 class SiteController extends Controller
 {
     /**
-     * Declares class-based actions.
+     * @return array action filters
      */
-    public function actions()
+    public function filters()
     {
         return array(
-            // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha' => array(
-                'class' => 'CCaptchaAction',
-                'backColor' => 0xFFFFFF,
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
+
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules()
+    {
+        return array(
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('index', 'error', 'login', 'reg'),
+                'users' => array('*'),
             ),
-            // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
-            'page' => array(
-                'class' => 'CViewAction',
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('logout'),
+                'users' => array('@'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
             ),
         );
     }
@@ -127,10 +141,7 @@ class SiteController extends Controller
      */
     public function actionTest()
     {
-        Yii::import("xupload.models.XUploadForm");
-        $photos = new XUploadForm;
-
-        $this->render('test', array('model' => $photos));
+        $this->render('test');
     }
 
     public function actionUploads()

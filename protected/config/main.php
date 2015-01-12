@@ -2,7 +2,7 @@
 
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'My Web Application',
+    'name' => 'HD обои для рабочего стола',
     'theme' => 'classic',
     'id' => 'wallpapper-pics',
 
@@ -13,9 +13,6 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
-    ),
-    'aliases' => array(
-        'xupload' => 'ext.vendor.asgaroth.xupload'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -78,8 +75,6 @@ return array(
 
     ),
 
-    // application-level parameters that can be accessed
-    // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',

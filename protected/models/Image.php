@@ -35,7 +35,10 @@ class Image extends CActiveRecord
         // will receive user inputs.
         return array(
             array('name, file, size, width, height, category_id, date', 'required'),
-            array('name, file, size, width, height, category_id, date', 'numerical', 'integerOnly' => true),
+            array('size, width, height, category_id, date', 'numerical', 'integerOnly' => true),
+            array('name', 'length', 'max' => 255),
+            array('file', 'length', 'max' => 16),
+            array('md5', 'length', 'max' => 32),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, file, size, width, height, category_id, date', 'safe', 'on' => 'search'),
@@ -51,6 +54,8 @@ class Image extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'colors' => array(self::HAS_MANY, 'Colors', 'image_id'),
+            'category' => array(self::BELONGS_TO, 'Category', 'category_id'),
+            'tags' => array(self::HAS_MANY, 'Tags', 'image_id'),
         );
     }
 
@@ -129,6 +134,7 @@ class Image extends CActiveRecord
                 $allow = array('image/jpeg', 'image/png', 'image/gif');
                 $imgInfo = getimagesize($file->tempName);
 
+
                 if (!in_array($file->type, $allow) || !$imgInfo) {
                     return '{"files": [
                         {
@@ -145,17 +151,67 @@ class Image extends CActiveRecord
                     $pathThumb = Y::getDir(time(), 'thumbs');
 
                     if ($file->saveAs($path . $name)) {
-                        Y::createThumb($path, $pathThumb, $name);
 
-                        $thumbnail = str_replace("/", "\/", $pathThumb) . $name;
+                        $width = intval($imgInfo[0]);
+                        $height = intval($imgInfo[1]);
 
-                        return '{"files": [
-                        {
-                            "name": "' . $name . '",
-                            "size": ' . $file->size . ',
-                            "thumbnailUrl": "\/' . $thumbnail . '"
+                        $imageTitle = str_replace('.' . $imgInfo['extension'], '', $file->name);
+                        preg_match('/\(.*\)/', $file->name, $imageTitle);
+
+                        $imageTitle = str_replace(array('(', ')'), '', $imageTitle[0]);
+
+                        $md5_file = md5_file($path . $name);
+
+                        $criteria = new CDbCriteria();
+                        $criteria->condition = 'md5=:md5';
+                        $criteria->params = array(':md5' => $md5_file);
+
+                        if (Image::model()->exists($criteria)) {
+                            return '{"files": [
+                                {
+                                    "name": "' . $name . '",
+                                    "size": ' . $file->size . ',
+                                    "error": "Файл уже существует!"
+                                    }
+                                ]}';
+                        } else {
+                            $image = new Image;
+                            $image->name = $imageTitle;
+                            $image->file = $name;
+                            $image->size = $file->size;
+                            $image->width = $width;
+                            $image->height = $height;
+                            $image->category_id = 1;
+                            $image->date = time();
+                            $image->md5 = $md5_file;
+
+                            if ($image->save()) {
+                                Colors::setColors($path . $name, $image->id);
+
+                                $tags = explode(",", trim($imageTitle));
+                                Tags::setTags($tags, $image->id);
+
+                                Y::createThumb($path, $pathThumb, $name);
+
+                                $thumbnail = str_replace("/", "\/", $pathThumb) . $name;
+
+                                return '{"files": [
+                            {
+                                "name": "' . $imageTitle . '",
+                                "size": ' . $file->size . ',
+                                "thumbnailUrl": "\/' . $thumbnail . '"
+                                }
+                            ]}';
+                            } else {
+                                return '{"files": [
+                                {
+                                    "name": "' . $name . '",
+                                    "size": ' . $file->size . ',
+                                    "error": "Ошибка сохранения!"
+                                    }
+                                ]}';
                             }
-                        ]}';
+                        }
                     } else {
                         return '{"files": [
                         {

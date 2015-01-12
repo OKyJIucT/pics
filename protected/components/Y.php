@@ -948,7 +948,7 @@ class Y
 
     public static function rgb2hexRound($rgb)
     {
-        $hex = "#";
+        $hex = "";
         foreach ($rgb as $color) {
             $dec = round($color / 8) * 8;
             $hex .= str_pad(dechex($dec), 2, "0", STR_PAD_LEFT);

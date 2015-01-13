@@ -72,80 +72,116 @@
                 </div>
 
                 <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="/">Главная</a>
 
-                        </li>
-                        <!-- Refer Bootstrap navbar doc -->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages #1 <b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="landing-page.html">Landing Page</a></li>
-                                <li><a href="pricing.html">Pricing Table</a></li>
-                                <li><a href="service-3.html">Service</a></li>
-                                <li><a href="support.html">Support</a></li>
-                                <li><a href="sitemap.html">Sitemap</a></li>
-                                <li><a href="timeline.html">Timeline</a></li>
-                                <li><a href="404.html">404</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="register1.html">Register</a></li>
-                                <li><a href="login1.html">Login</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages #2<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="coming-soon.html">Coming Soon</a></li>
-                                <li><a href="features-4.html">Features</a></li>
-                                <li><a href="statement.html">Statement</a></li>
-                                <li><a href="tasks.html">Tasks</a></li>
-                                <li><a href="resume.html">Resume</a></li>
-                                <li><a href="projects.html">Projects</a></li>
-                                <li><a href="make-post.html">Make Post</a></li>
-                                <li><a href="events.html">Events</a></li>
-                                <li><a href="error-log.html">Error Log</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="service.html">Service</a></li>
-                        <li><a href="aboutus.html">About Us</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="blog-2.html">Blog #1</a></li>
-                                <li><a href="blog-4.html">Blog #1</a></li>
-                                <li><a href="blog-single.html">Blog Single</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <?php if (Y::isGuest()) : ?>
-                            <li><a href="/login">Вход</a></li>
-                            <li><a href="/reg">Регистрация</a></li>
-                        <?php else: ?>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle"
-                                   data-toggle="dropdown"><?= Yii::app()->user->username; ?> <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <?php if (Y::checkAccess('admin')): ?>
-                                        <li><a href="/image/create"><i class="fa fa-plus"></i> Добавить обои</a></li>
-                                        <li><a href="/category/admin"><i class="fa fa-folder"></i> Категории</a></li>
+                    <?php
 
-                                        <li><a href="/rbac"><i class="fa fa-lock"></i> Роли</a></li>
-                                    <?php endif; ?>
-                                    <li><a href="#"><i class="fa fa-user"></i> Профиль</a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i> Избранное</a></li>
-                                    <li><a href="/logout"><i class="fa fa-power-off"></i> Выход</a></li>
-                                </ul>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
+                    $categories = Category::model()->findAll($criteria);
+
+                    $categoryList = array();
+                    foreach ($categories as $category) {
+                        $categoryList[] = array(
+                            'label' => $category->name,
+                            'url' => Y::url('/category/' . $category->slug),
+                        );
+                    }
+
+                    $this->widget('zii.widgets.CMenu', array(
+                            'encodeLabel' => false,
+                            'items' => array(
+                                array(
+                                    'label' => 'Главная',
+                                    'url' => array('/site/index'),
+                                    'active' => 0
+                                ),
+
+                                array(
+                                    'label' => '<i class="fa fa-power-off"></i> Выход',
+                                    'url' => Y::url('/site/logout'),
+                                    'visible' => !Yii::app()->user->isGuest,
+                                    'itemOptions' => array('class' => 'pull-right'),
+                                    'active' => 0
+                                ),
+                                array(
+                                    'label' => '<i class="fa fa-star"></i> Избранное',
+                                    'url' => '#',
+                                    'visible' => !Yii::app()->user->isGuest,
+                                    'itemOptions' => array('class' => 'pull-right'),
+                                    'active' => 0
+                                ),
+                                array(
+                                    'label' => '<i class="fa fa-user"></i> Профиль',
+                                    'url' => '#',
+                                    'visible' => !Yii::app()->user->isGuest,
+                                    'itemOptions' => array('class' => 'pull-right'),
+                                    'active' => 0
+                                ),
+
+                                array(
+                                    'label' => 'Админка <b class="caret"></b>',
+                                    'url' => array('#'),
+                                    'visible' => Y::checkAccess('admin'),
+                                    'itemOptions' => array('class' => 'dropdown pull-right'),
+                                    'linkOptions' => array('class' => 'dropdown-toggle', 'data-toggle' => "dropdown"),
+                                    'submenuOptions' => array('class' => 'dropdown-menu'),
+                                    'items' => array(
+                                        array(
+                                            'label' => '<i class="fa fa-plus"></i> Добавить обои',
+                                            'url' => Y::url('/image/create'),
+                                            'visible' => Y::checkAccess('admin')
+                                        ),
+                                        array(
+                                            'label' => '<i class="fa fa-folder"></i> Рассылки',
+                                            'url' => Y::url('/category/admin'),
+                                            'visible' => Y::checkAccess('admin')
+                                        ),
+                                        array(
+                                            'label' => '<i class="fa fa-lock"></i> Роли',
+                                            'url' => Y::url('/rbac'),
+                                            'visible' => Y::checkAccess('admin')
+                                        ),
+                                    ),
+                                    'active' => 0
+                                ),
+
+                                array(
+                                    'label' => 'Регистрация',
+                                    'url' => array('/site/reg'),
+                                    'visible' => Yii::app()->user->isGuest,
+                                    'itemOptions' => array('class' => 'pull-right'),
+                                    'active' => 0
+                                ),
+                                array(
+                                    'label' => 'Войти',
+                                    'url' => array('/site/login'),
+                                    'visible' => Yii::app()->user->isGuest,
+                                    'itemOptions' => array('class' => 'pull-right'),
+                                    'active' => 0
+                                ),
+                            ),
+                            'htmlOptions' => array('class' => 'nav nav-pills'),
+                        )
+                    );
+                    ?>
                 </nav>
             </div>
         </div>
 
         <div class="container">
+            <div class="text-center">
+                <?php
+                $classes = array('btn-primary', 'btn-success', 'btn-info', 'btn-warning', 'btn-danger');
+                foreach ($categoryList as $category) {
+                    $color = $classes[array_rand($classes)];
+                    if ($oldColor == $color) $color = $classes[array_rand($classes)];
+                    if ($oldColor == $color) $color = $classes[array_rand($classes)];
+
+                    echo '<a class="btn ' . $classes[array_rand($classes)] . ' m4 pull-left" href="' . $category['url'] . '">' . $category['label'] . '</a>';
+                    $oldColor = $color;
+                }
+                ?>
+            </div>
+
+            <div class="clearfix"></div>
             <?php echo $content; ?>
         </div>
     </body>

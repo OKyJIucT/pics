@@ -2275,3 +2275,15 @@ header {
 .errorMessage  {
     color: #d9534f;
 }
+
+.m4 {
+    margin: 4px;
+}
+
+.mleft {
+    margin-left: 4px;
+}
+
+.mright {
+    margin-right: 4px;
+}

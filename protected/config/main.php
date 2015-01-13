@@ -29,6 +29,18 @@ return array(
 
     // application components
     'components' => array(
+        'clientScript' => array(
+            'packages' => array(
+                // Уникальное имя пакета
+                'upload' => array(
+                    // Где искать подключаемые файлы JS и CSS
+                    'baseUrl' => '/static/',
+                    'js' => array('js/upload.min.js'),
+                    'css' => array('css/fileupload.css', 'css/fileupload-ui.css'),
+                    'depends' => array('jquery'),
+                ),
+            )
+        ),
         'user' => array(
             'class' => 'WebUser',
             // enable cookie-based authentication

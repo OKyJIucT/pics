@@ -69,6 +69,8 @@
         </td>
     </tr>
 {% } %}
+
+
 </script>
 
 <script id="template-download" type="text/x-tmpl">
@@ -114,28 +116,14 @@
 {% } %}
 </script>
 
-<script src="/upload/js/vendor/jquery.ui.widget.js"></script>
+<?php
+Yii::app()->clientScript->registerPackage('upload');
 
-<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-
-<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-
-<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-
-<script src="/upload/js/jquery.fileupload.js"></script>
-
-<script src="/upload/js/jquery.fileupload-process.js"></script>
-
-<script src="/upload/js/jquery.fileupload-image.js"></script>
-
-<script src="/upload/js/jquery.fileupload-validate.js"></script>
-
-<script src="/upload/js/jquery.fileupload-ui.js"></script>
-
-<script>
-    $('#fileupload').fileupload({
+Yii::app()->clientScript->registerScript('fileupload', "
+$('#fileupload').fileupload({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
         url: '/image/uploads'
     });
-</script>
+");
+?>

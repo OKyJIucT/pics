@@ -3,53 +3,27 @@
 $this->pageTitle = Yii::app()->name;
 ?>
 
-<div class="row margin-top">
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
-        <div class="gallery-page-wrap">
-            <img src="http://marijazaric.com/minimalist-theme/images/gallery3.jpg" alt="photo">
-        </div>
-    </div>
-
+<div class="row">
+    <?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider' => $dataProvider,
+        'itemView' => '_view',
+        'ajaxUpdate' => false,
+        'template' => "<div class='col-md-12'>{pager}</div><div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
+        'pager' => array(
+            'maxButtonCount' => '10',
+            'prevPageLabel' => '',
+            'firstPageLabel' => 'Первая',
+            'nextPageLabel' => '',
+            'lastPageLabel' => 'Последняя',
+            'header' => '',
+            'htmlOptions' => array('class' => 'pagination pagination-sm pull-left push-down-20'),
+            'firstPageCssClass' => '', //default "first"
+            'lastPageCssClass' => '', //default "last"
+            'previousPageCssClass' => 'hidden', //default "previours"
+            'nextPageCssClass' => 'hidden', //default "next"
+            'internalPageCssClass' => '', //default "page"
+            'selectedPageCssClass' => 'active', //default "selected"
+            'hiddenPageCssClass' => ''//default "hidden"
+        ),
+    )); ?>
 </div>

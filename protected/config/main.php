@@ -49,16 +49,19 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
+            'urlSuffix' => '.html',
             'rules' => array(
                 '' => 'site/index',
                 '<action:(login|logout|reg|test)>' => 'site/<action>',
+                'category/<slug>' => 'category/view',
+                'category/<slug>/<id:\d+>-<title:.*?>' => 'category/image',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             )
         ),
-        // database settings are configured in database.php
+
         'db' => require(dirname(__FILE__) . '/database.php'),
 
         'errorHandler' => array(

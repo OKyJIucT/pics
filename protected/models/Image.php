@@ -36,7 +36,7 @@ class Image extends CActiveRecord
         return array(
             array('name, file, size, width, height, category_id, date', 'required'),
             array('size, width, height, category_id, date', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 255),
+            array('name, title', 'length', 'max' => 255),
             array('file', 'length', 'max' => 16),
             array('md5', 'length', 'max' => 32),
             // The following rule is used by search().
@@ -177,11 +177,12 @@ class Image extends CActiveRecord
                         } else {
                             $image = new Image;
                             $image->name = $imageTitle;
+                            $image->title = Y::totranslit($imageTitle);
                             $image->file = $name;
                             $image->size = $file->size;
                             $image->width = $width;
                             $image->height = $height;
-                            $image->category_id = 1;
+                            $image->category_id = $category_id;
                             $image->date = time();
                             $image->md5 = $md5_file;
 

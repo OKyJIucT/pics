@@ -81,7 +81,7 @@
                     foreach ($categories as $category) {
                         $categoryList[] = array(
                             'label' => $category->name,
-                            'url' => Y::url('/category/' . $category->slug),
+                            'url' => Y::url('/category/view', array('slug' => $category->slug)),
                         );
                     }
 
@@ -130,7 +130,7 @@
                                             'visible' => Y::checkAccess('admin')
                                         ),
                                         array(
-                                            'label' => '<i class="fa fa-folder"></i> Рассылки',
+                                            'label' => '<i class="fa fa-folder"></i> Категории',
                                             'url' => Y::url('/category/admin'),
                                             'visible' => Y::checkAccess('admin')
                                         ),

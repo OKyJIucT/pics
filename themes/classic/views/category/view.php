@@ -1,28 +1,24 @@
-<?php
-/* @var $this CategoryController */
-/* @var $model Category */
-
-$this->breadcrumbs=array(
-	'Categories'=>array('index'),
-	$model->name,
-);
-
-$this->menu=array(
-	array('label'=>'List Category', 'url'=>array('index')),
-	array('label'=>'Create Category', 'url'=>array('create')),
-	array('label'=>'Update Category', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Category', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Category', 'url'=>array('admin')),
-);
-?>
-
-<h1>View Category #<?php echo $model->id; ?></h1>
-
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'slug',
-		'name',
-	),
-)); ?>
+<div class="row">
+    <?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider' => $dataProvider,
+        'itemView' => '_view',
+        'ajaxUpdate' => false,
+        'template' => "<div class='col-md-12'>{pager}</div><div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
+        'pager' => array(
+            'maxButtonCount' => '10',
+            'prevPageLabel' => '',
+            'firstPageLabel' => 'Первая',
+            'nextPageLabel' => '',
+            'lastPageLabel' => 'Последняя',
+            'header' => '',
+            'htmlOptions' => array('class' => 'pagination pagination-sm pull-left push-down-20'),
+            'firstPageCssClass' => '', //default "first"
+            'lastPageCssClass' => '', //default "last"
+            'previousPageCssClass' => 'hidden', //default "previours"
+            'nextPageCssClass' => 'hidden', //default "next"
+            'internalPageCssClass' => '', //default "page"
+            'selectedPageCssClass' => 'active', //default "selected"
+            'hiddenPageCssClass' => ''//default "hidden"
+        ),
+    )); ?>
+</div>

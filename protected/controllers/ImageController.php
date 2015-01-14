@@ -37,26 +37,15 @@ class ImageController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Image;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Image'])) {
-            $model->attributes = $_POST['Image'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
-        }
-
         $this->render('create', array(
-            'model' => $model,
+            'category' => Category::model()->findAll(),
         ));
     }
 
     public function actionUploads()
     {
         $thumbs = CUploadedFile::getInstancesByName('files');
-        $result = Image::saveImage($thumbs, $category_id);
+        $result = Image::saveImage($thumbs, intval($_POST['category']));
 
         echo $result;
     }

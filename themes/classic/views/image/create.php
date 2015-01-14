@@ -1,10 +1,15 @@
 <form id="fileupload" action="/image/uploads" method="POST" enctype="multipart/form-data">
 
-
-    <input type="hidden" name="test" value="123"/>
-
     <div class="row fileupload-buttonbar">
         <div class="col-lg-12">
+
+            <div class="form-group">
+                <?php
+                echo CHtml::dropDownList(
+                    'category',
+                    $value, CHtml::listData($category, 'id', 'name'), array('empty' => 'Выберите категорию для добавления', 'class' => "form-control"));
+                ?>
+            </div>
 
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
@@ -71,6 +76,9 @@
 {% } %}
 
 
+
+
+
 </script>
 
 <script id="template-download" type="text/x-tmpl">
@@ -114,6 +122,9 @@
         </td>
     </tr>
 {% } %}
+
+
+
 </script>
 
 <?php

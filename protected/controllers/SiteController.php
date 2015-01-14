@@ -1,7 +1,6 @@
 <?php
 
 require_once 'protected/vendor/autoload.php';
-use ColorThief\ColorThief;
 
 class SiteController extends Controller
 {
@@ -44,19 +43,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $img = 'http://img3.goodfon.ru/wallpaper/big/d/50/abstrakciya-sladost-pirozhnoe-1575.jpg';
+        $array = array(
+            'criteria' => array(
+                'order' => 'id DESC'
+            ),
+            'pagination' => array(
+                'pageSize' => 18,
+            )
+        );
 
-        $colors = ColorThief::getPalette($img);
-
-        $array = array();
-
-        foreach ($colors as $color) {
-            $array[] = Y::rgb2hexRound($color);
-        }
-
-        //Y::saveImage($imgResized);
-
-        $this->render('index', array('colors' => $array, 'img' => $img));
+        $dataProvider = new CActiveDataProvider('Image', $array);
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
     }
 
     /**

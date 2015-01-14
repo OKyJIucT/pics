@@ -27,7 +27,11 @@ class CategoryController extends Controller
     {
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'update', 'create', 'admin', 'delete'),
+                'actions' => array('image', 'view'),
+                'roles' => array('admin'),
+            ),
+            array('allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => array('index', 'update', 'create', 'admin', 'delete'),
                 'roles' => array('admin'),
             ),
             array('deny',  // deny all users
@@ -40,10 +44,39 @@ class CategoryController extends Controller
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'slug=:slug';
+        $criteria->params = array(':slug' => $slug);
+        $category = Category::model()->find($criteria);
+
+        $array = array(
+            'criteria' => array(
+                'condition' => 'category_id = :category_id',
+                'params' => array(':category_id' => $category->id),
+                'order' => 'id DESC'
+            ),
+            'pagination' => array(
+                'pageSize' => 18,
+            )
+        );
+
+        $dataProvider = new CActiveDataProvider('Image', $array);
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'dataProvider' => $dataProvider,
+        ));
+
+    }
+
+    public function actionImage($id)
+    {
+        $id = intval($id);
+
+        $model = Image::model()->findByPk($id);
+
+        $this->render('image', array(
+            'model' => $model,
         ));
     }
 

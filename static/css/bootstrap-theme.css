@@ -59,7 +59,7 @@ p {
 }
 
 a {
-    color: #aaa;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -2272,12 +2272,20 @@ header {
     border: 1px solid #d9534f !important;
 }
 
-.errorMessage  {
+.errorMessage {
     color: #d9534f;
 }
 
 .m4 {
     margin: 4px;
+}
+
+.m8 {
+    margin: 8px;
+}
+
+.mb0 {
+    margin-bottom: 0;
 }
 
 .mleft {

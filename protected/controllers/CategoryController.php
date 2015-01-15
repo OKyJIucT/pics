@@ -51,6 +51,8 @@ class CategoryController extends Controller
         $criteria->params = array(':slug' => $slug);
         $category = Category::model()->find($criteria);
 
+        $this->pageTitle = $category->name;
+
         $array = array(
             'criteria' => array(
                 'condition' => 'category_id = :category_id',
@@ -73,7 +75,9 @@ class CategoryController extends Controller
     {
         $id = intval($id);
 
-        $model = Image::model()->findByPk($id);
+        $model = Image::model()->with('colors', 'tags')->findByPk($id);
+
+        $this->pageTitle = $model->name;
 
         $this->render('image', array(
             'model' => $model,

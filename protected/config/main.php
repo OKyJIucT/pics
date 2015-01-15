@@ -2,7 +2,7 @@
 
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'HD обои для рабочего стола',
+    'name' => 'скачать HD обои для рабочего стола',
     'theme' => 'classic',
     'id' => 'wallpapper-pics',
 
@@ -49,10 +49,10 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'showScriptName' => false,
-            'urlSuffix' => '.html',
             'rules' => array(
                 '' => 'site/index',
                 '<action:(login|logout|reg|test)>' => 'site/<action>',
+                'category/<action:(admin|create|update)>' => 'category/<action>',
                 'category/<slug>' => 'category/view',
                 'category/<slug>/<id:\d+>-<title:.*?>' => 'category/image',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',

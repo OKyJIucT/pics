@@ -75,16 +75,6 @@
 
                     <?php
 
-                    $categories = Category::model()->findAll($criteria);
-
-                    $categoryList = array();
-                    foreach ($categories as $category) {
-                        $categoryList[] = array(
-                            'label' => $category->name,
-                            'url' => Y::url('/category/view', array('slug' => $category->slug)),
-                        );
-                    }
-
                     $this->widget('zii.widgets.CMenu', array(
                             'encodeLabel' => false,
                             'items' => array(
@@ -165,18 +155,29 @@
                 </nav>
             </div>
         </div>
-
         <div class="container">
             <div class="text-center">
                 <?php
-                $classes = array('btn-primary', 'btn-success', 'btn-info', 'btn-warning', 'btn-danger');
-                foreach ($categoryList as $category) {
-                    $color = $classes[array_rand($classes)];
-                    if ($oldColor == $color) $color = $classes[array_rand($classes)];
-                    if ($oldColor == $color) $color = $classes[array_rand($classes)];
 
-                    echo '<a class="btn ' . $classes[array_rand($classes)] . ' m4 pull-left" href="' . $category['url'] . '">' . $category['label'] . '</a>';
-                    $oldColor = $color;
+                if (Yii::app()->controller->getId() == 'image' || (Yii::app()->controller->getId() == 'image' && $this->action->id == 'index')) {
+
+                }
+                $categories = Category::model()->findAll(array('order' => 'name ASC'));
+
+                $categoryList = array();
+                foreach ($categories as $category) {
+                    $categoryList[] = array(
+                        'label' => $category->name,
+                        'url' => Y::url('/category/view', array('slug' => $category->slug)),
+                    );
+                }
+
+                $classes = array(1 => 'btn-primary', 2 => 'btn-success', 3 => 'btn-info', 4 => 'btn-warning', 5 => 'btn-danger');
+                $i = 1;
+                foreach ($categoryList as $category) {
+                    echo '<a class="btn ' . $classes[$i] . ' m4 pull-left" href="' . $category['url'] . '">' . $category['label'] . '</a>';
+                    if ($i == 5) $i = 1;
+                    else $i++;
                 }
                 ?>
             </div>

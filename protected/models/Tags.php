@@ -29,9 +29,9 @@ class Tags extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, image_id', 'required'),
+            array('name, image_id, slug', 'required'),
             array('image_id', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 32),
+            array('name, slug', 'length', 'max' => 32),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, image_id', 'safe', 'on' => 'search'),
@@ -57,6 +57,7 @@ class Tags extends CActiveRecord
     {
         return array(
             'id' => 'ID',
+            'slug' => 'Slug',
             'name' => 'Name',
             'image_id' => 'Image',
         );
@@ -81,6 +82,7 @@ class Tags extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
+        $criteria->compare('slug', $this->slug, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('image_id', $this->image_id);
 
@@ -106,6 +108,7 @@ class Tags extends CActiveRecord
             $tagData = new Tags;
             $tagData->image_id = $image_id;
             $tagData->name = mb_convert_case(trim($tag), MB_CASE_LOWER, "UTF-8");
+            $tagData->slug = Y::totranslit($tagData->name);
             $tagData->save();
         }
     }

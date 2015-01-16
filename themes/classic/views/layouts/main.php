@@ -159,25 +159,17 @@
             <div class="text-center">
                 <?php
 
-                if (Yii::app()->controller->getId() == 'image' || (Yii::app()->controller->getId() == 'image' && $this->action->id == 'index')) {
+                if (Yii::app()->controller->getId() != 'image' && (Yii::app()->controller->getId() != 'category' && ($this->action->id != 'admin' || $this->action->id != 'update' || $this->action->id != 'create'))) {
+                    $categories = Category::model()->findAll(array('order' => 'name ASC'));
 
-                }
-                $categories = Category::model()->findAll(array('order' => 'name ASC'));
-
-                $categoryList = array();
-                foreach ($categories as $category) {
-                    $categoryList[] = array(
-                        'label' => $category->name,
-                        'url' => Y::url('/category/view', array('slug' => $category->slug)),
-                    );
-                }
-
-                $classes = array(1 => 'btn-primary', 2 => 'btn-success', 3 => 'btn-info', 4 => 'btn-warning', 5 => 'btn-danger');
-                $i = 1;
-                foreach ($categoryList as $category) {
-                    echo '<a class="btn ' . $classes[$i] . ' m4 pull-left" href="' . $category['url'] . '">' . $category['label'] . '</a>';
-                    if ($i == 5) $i = 1;
-                    else $i++;
+                    $categoryList = array();
+                    $classes = array(1 => 'btn-primary', 2 => 'btn-success', 3 => 'btn-info', 4 => 'btn-warning', 5 => 'btn-danger');
+                    $i = 1;
+                    foreach ($categories as $category) {
+                        echo '<a class="btn ' . $classes[$i] . ' m4 pull-left" href="' . Y::url('/category/view', array('slug' => $category->slug)) . '">' . $category->name . '</a>';
+                        if ($i == 5) $i = 1;
+                        else $i++;
+                    }
                 }
                 ?>
             </div>

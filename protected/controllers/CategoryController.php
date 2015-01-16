@@ -77,6 +77,8 @@ class CategoryController extends Controller
 
         $model = Image::model()->with('colors', 'tags')->findByPk($id);
 
+        if($model == null) Y::error(404);
+
         $this->pageTitle = $model->name;
 
         $this->render('image', array(

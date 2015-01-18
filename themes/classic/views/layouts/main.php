@@ -34,7 +34,6 @@
         <title><?php echo CHtml::encode($this->pageTitle . ' - ' . Yii::app()->name); ?></title>
     </head>
     <body>
-
         <header>
             <div class="container">
                 <div class="row">
@@ -156,26 +155,31 @@
             </div>
         </div>
         <div class="container">
-            <div class="text-center">
-                <?php
+            <?php
+            if (Yii::app()->controller->getId() != 'image' || $this->action->id != 'admin' || $this->action->id != 'update' || $this->action->id != 'create') {
 
-                if (Yii::app()->controller->getId() != 'image' && (Yii::app()->controller->getId() != 'category' && ($this->action->id != 'admin' || $this->action->id != 'update' || $this->action->id != 'create'))) {
-                    $categories = Category::model()->findAll(array('order' => 'name ASC'));
+                echo '<div class="text-center mb16 row">
+                        <div class="col-md-12">';
+                $categories = Category::model()->findAll(array('order' => 'name ASC'));
 
-                    $categoryList = array();
-                    $classes = array(1 => 'btn-primary', 2 => 'btn-success', 3 => 'btn-info', 4 => 'btn-warning', 5 => 'btn-danger');
-                    $i = 1;
-                    foreach ($categories as $category) {
-                        echo '<a class="btn ' . $classes[$i] . ' m4 pull-left" href="' . Y::url('/category/view', array('slug' => $category->slug)) . '">' . $category->name . '</a>';
-                        if ($i == 5) $i = 1;
-                        else $i++;
-                    }
+                $categoryList = array();
+                $classes = array(1 => 'btn-primary', 2 => 'btn-success', 3 => 'btn-info', 4 => 'btn-warning', 5 => 'btn-danger');
+                $i = 1;
+                foreach ($categories as $category) {
+                    echo '<a class="btn ' . $classes[$i] . ' m4 ml0 pull-left" href="' . Y::url('/category/view', array('slug' => $category->slug)) . '">' . $category->name . '</a>';
+                    if ($i == 5) $i = 1;
+                    else $i++;
                 }
-                ?>
-            </div>
 
-            <div class="clearfix"></div>
+                echo '</div>
+                         </div><div class="clearfix"></div>';
+            }
+            ?>
+
             <?php echo $content; ?>
         </div>
+
+        <!-- Yandex.Metrika counter --><script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter27984936 = new Ya.Metrika({ id:27984936 }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/27984936" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
+
     </body>
 </html>

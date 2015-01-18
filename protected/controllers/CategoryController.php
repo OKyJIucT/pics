@@ -71,15 +71,17 @@ class CategoryController extends Controller
 
     }
 
-    public function actionImage($id)
+    public function actionImage($id, $title)
     {
         $id = intval($id);
-
         $model = Image::model()->with('colors', 'tags')->findByPk($id);
-
-        if($model == null) Y::error(404);
-
         $this->pageTitle = $model->name;
+
+        if ($title != $model->title) {
+            $this->redirect(Y::url('/category/image', array('slug' => $model->category->slug, 'id' => $model->id, 'title' => $model->title)), true, 301);
+        }
+
+        if ($model == null) Y::error(404);
 
         $this->render('image', array(
             'model' => $model,

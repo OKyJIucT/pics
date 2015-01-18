@@ -1,6 +1,8 @@
 <div class="row">
     <div class="col-md-8">
         <div class="gallery-page-wrap">
+
+
             <img
                 src="/static/thumbs/<?= date("Y/m/d", $model->date); ?>/<?= $model->file; ?>"
                 title="<?= $model->name; ?>"
@@ -11,7 +13,7 @@
                     <?php
                     $tags = array();
                     foreach ($model->tags as $tag) {
-                        $tags[] = $tag->name;
+                        $tags[] = '<a href="' . Y::url('/tags/view', array('slug' => $tag->slug)) . '">' . $tag->name . '</a>';
                     }
                     $tags = implode(', ', $tags);
                     ?>
@@ -20,11 +22,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="m8">
-                        <?php
-                        foreach ($model->colors as $item) {
-                            echo '<div style="background: #' . $item->color . '; width: 20px; height: 30px; margin: 8px 4px; float: left" title="#' . $item->color . '"></div>';
-                        }
-                        ?>
+                        <?php $this->widget('ext.Colors.Color', array('colors' => $model->colors)); ?>
                     </div>
                 </div>
             </div>

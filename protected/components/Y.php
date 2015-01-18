@@ -578,7 +578,7 @@ class Y
     public static function stats($return = false)
     {
 
-        if (Y::hasAccess('administrator')) {
+        if (Y::hasAccess('admin')) {
             $stats = '';
             $dbStats = Yii::app()->getDb()->getStats();
 

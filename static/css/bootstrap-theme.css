@@ -2288,6 +2288,10 @@ header {
     margin-bottom: 0;
 }
 
+.mb16 {
+    margin-bottom: 16px;
+}
+
 .ml0 {
     margin-left: 0;
 }
@@ -2298,4 +2302,15 @@ header {
 
 .mright {
     margin-right: 4px;
+}
+
+.color-item {
+    width: 20px;
+    height: 30px;
+    margin: 8px 4px;
+    border: 1px solid #ccc;
+}
+
+.pagination {
+    margin-top: 0;
 }

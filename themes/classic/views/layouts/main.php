@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name='yandex-verification' content='7cf750433f4878e9' />
         <?php
         Yii::app()->clientScript->registerCssFile(
             Yii::app()->assetManager->publish(

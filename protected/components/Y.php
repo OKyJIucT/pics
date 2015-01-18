@@ -936,6 +936,21 @@ class Y
         return $sub;
     }
 
+
+    public static function md5Dir($time)
+    {
+        $sub = date('Y/m/d/', $time);
+        $dirThumbs = 'static/wallpapers/' . md5($sub . Y::salt()) . '/';
+        if (!is_dir($dirThumbs)) mkdir($dirThumbs, 0755, true);
+
+        return $dirThumbs;
+    }
+
+    public static function salt()
+    {
+        return 'B7PSZsByNQ';
+    }
+
     public static function rgb2hex($rgb)
     {
         $hex = "#";
@@ -1096,7 +1111,7 @@ class Y
 
             return strtr(date(func_get_arg(0), $timestamp), $translate);
         } else {
-        // иначе текущую дату
+            // иначе текущую дату
             return strtr(date(func_get_arg(0)), $translate);
         }
     }

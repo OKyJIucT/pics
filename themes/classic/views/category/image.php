@@ -10,6 +10,15 @@
 
             <div class="row">
                 <div class="col-md-6">
+                    <div class="m8">Добавлено: <?= Y::rus_date('d M в H:i', $model->date); ?></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="m8">Скачать оригинал: <?= $model->width . 'x' . $model->height; ?></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
                     <?php
                     $tags = array();
                     foreach ($model->tags as $tag) {

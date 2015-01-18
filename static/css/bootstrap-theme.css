@@ -6,7 +6,7 @@
 }
 
 body {
-    color: #666;
+    color: #333;
     font-size: 15px;
     line-height: 25px;
     font-weight: 400;
@@ -78,7 +78,6 @@ hr {
 
 :focus {
     outline: none;
-    border: 0;
 }
 
 ::-moz-focus-inner {

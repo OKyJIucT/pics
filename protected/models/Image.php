@@ -147,10 +147,12 @@ class Image extends CActiveRecord
                     $ext = strtolower(array_pop(explode('.', $file->name)));
                     $name = Y::getHash() . '.' . $ext;
 
-                    $path = Y::getDir(time(), 'walpappers');
-                    $pathThumb = Y::getDir(time(), 'thumbs');
+                    $time = time();
 
-                    if ($file->saveAs($path . $name)) {
+                    $pathThumb = Y::getDir($time, 'thumbs');
+                    $newPath = Y::md5Dir($time, $name);
+
+                    if ($file->saveAs($newPath . $name)) {
 
                         $width = intval($imgInfo[0]);
                         $height = intval($imgInfo[1]);
@@ -160,7 +162,7 @@ class Image extends CActiveRecord
 
                         $imageTitle = str_replace(array('(', ')'), '', $imageTitle[0]);
 
-                        $md5_file = md5_file($path . $name);
+                        $md5_file = md5_file($newPath . $name);
 
                         $criteria = new CDbCriteria();
                         $criteria->condition = 'md5=:md5';
@@ -183,16 +185,16 @@ class Image extends CActiveRecord
                             $image->width = $width;
                             $image->height = $height;
                             $image->category_id = $category_id;
-                            $image->date = time();
+                            $image->date = $time;
                             $image->md5 = $md5_file;
 
                             if ($image->save()) {
-                                Colors::setColors($path . $name, $image->id);
+                                Colors::setColors($newPath . $name, $image->id);
 
                                 $tags = explode(",", trim($imageTitle));
                                 Tags::setTags($tags, $image->id);
 
-                                Y::createThumb($path, $pathThumb, $name);
+                                Y::createThumb($newPath, $pathThumb, $name);
 
                                 $thumbnail = str_replace("/", "\/", $pathThumb) . $name;
 

@@ -38,14 +38,14 @@ class ImageController extends Controller
     public function actionCreate()
     {
         $this->render('create', array(
-            'category' => Category::model()->findAll(),
+            'category' => Category::model()->findAll(array('order' => 'name ASC')),
         ));
     }
 
     public function actionUploads()
     {
         $thumbs = CUploadedFile::getInstancesByName('files');
-        $result = Image::saveImage($thumbs, intval($_POST['category']));
+        $result = Tmp::saveImage($thumbs, intval($_POST['category']));
 
         echo $result;
     }

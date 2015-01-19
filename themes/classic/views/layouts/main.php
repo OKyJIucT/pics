@@ -157,7 +157,7 @@
         </div>
         <div class="container">
             <?php
-            if (Yii::app()->controller->getId() != 'image' || $this->action->id != 'admin' || $this->action->id != 'update' || $this->action->id != 'create') {
+            if (Yii::app()->controller->getId() != 'image' && $this->action->id != 'admin' && $this->action->id != 'update' && $this->action->id != 'create') {
 
                 echo '<div class="text-center mb16 row">
                         <div class="col-md-12">';

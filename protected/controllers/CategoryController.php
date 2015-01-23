@@ -28,7 +28,7 @@ class CategoryController extends Controller
         return array(
             array('allow',  // allow all users to perform 'index' and 'view' actions
                 'actions' => array('image', 'view'),
-                'roles' => array('admin'),
+                'users' => array('*'),
             ),
             array('allow',  // allow all users to perform 'index' and 'view' actions
                 'actions' => array('index', 'update', 'create', 'admin', 'delete'),

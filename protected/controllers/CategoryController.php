@@ -57,7 +57,7 @@ class CategoryController extends Controller
             'criteria' => array(
                 'condition' => 'category_id = :category_id',
                 'params' => array(':category_id' => $category->id),
-                'order' => 'id DESC'
+                'order' => 'date DESC'
             ),
             'pagination' => array(
                 'pageSize' => 18,

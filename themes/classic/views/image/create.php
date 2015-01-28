@@ -7,7 +7,7 @@
                 <?php
                 echo CHtml::dropDownList(
                     'category',
-                    $value, CHtml::listData($category, 'id', 'name'), array('empty' => 'Выберите категорию для добавления', 'class' => "form-control"));
+                    '', CHtml::listData($category, 'id', 'name'), array('empty' => 'Выберите категорию для добавления', 'class' => "form-control"));
                 ?>
             </div>
 

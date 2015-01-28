@@ -45,7 +45,7 @@ class SiteController extends Controller
     {
         $array = array(
             'criteria' => array(
-                'order' => 'id DESC'
+                'order' => 'date DESC'
             ),
             'pagination' => array(
                 'pageSize' => 18,

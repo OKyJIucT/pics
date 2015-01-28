@@ -158,7 +158,7 @@ class Tmp extends CActiveRecord
                         $width = intval($imgInfo[0]);
                         $height = intval($imgInfo[1]);
 
-                        $imageTitle = str_replace('.' . $imgInfo['extension'], '', $file->name);
+                        $imageTitle = str_replace('.' . $ext, '', $file->name);
                         preg_match('/\(.*\)/', $file->name, $imageTitle);
 
                         $imageTitle = str_replace(array('(', ')'), '', $imageTitle[0]);
@@ -173,7 +173,7 @@ class Tmp extends CActiveRecord
                         $criteriaTmp->condition = 'md5=:md5';
                         $criteriaTmp->params = array(':md5' => $md5_file);
 
-                        if (Image::model()->exists($criteria) && Tmp::model()->exists($criteria)) {
+                        if (Image::model()->exists($criteriaImage) || Tmp::model()->exists($criteriaTmp)) {
                             return '{"files": [
                                 {
                                     "name": "' . $name . '",

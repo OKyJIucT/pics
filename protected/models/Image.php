@@ -157,7 +157,7 @@ class Image extends CActiveRecord
                         $width = intval($imgInfo[0]);
                         $height = intval($imgInfo[1]);
 
-                        $imageTitle = str_replace('.' . $imgInfo['extension'], '', $file->name);
+                        $imageTitle = str_replace('.' . $ext, '', $file->name);
                         preg_match('/\(.*\)/', $file->name, $imageTitle);
 
                         $imageTitle = str_replace(array('(', ')'), '', $imageTitle[0]);

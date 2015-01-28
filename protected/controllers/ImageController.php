@@ -45,7 +45,7 @@ class ImageController extends Controller
     public function actionUploads()
     {
         $thumbs = CUploadedFile::getInstancesByName('files');
-        $result = Tmp::saveImage($thumbs, intval($_POST['category']));
+        $result = Image::saveImage($thumbs, intval($_POST['category']));
 
         echo $result;
     }

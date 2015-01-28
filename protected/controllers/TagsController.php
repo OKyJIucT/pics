@@ -57,8 +57,7 @@ class TagsController extends Controller
         $array = array(
             'criteria' => array(
                 'condition' => 'slug = :slug',
-                'params' => array(':slug' => $slug),
-                'order' => 'id DESC'
+                'params' => array(':slug' => $slug)
             ),
             'pagination' => array(
                 'pageSize' => 18,
@@ -66,6 +65,7 @@ class TagsController extends Controller
         );
 
         $dataProvider = new CActiveDataProvider('Tags', $array);
+
         $this->render('view', array(
             'dataProvider' => $dataProvider,
         ));

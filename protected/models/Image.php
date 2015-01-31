@@ -149,8 +149,13 @@ class Image extends CActiveRecord
 
                     $time = time();
 
+                    $category = Category::model()->findByPk($category_id);
+
                     $pathThumb = Y::getDir($time, 'thumbs');
                     $newPath = Y::md5Dir($time, $name);
+
+                    $pathThumb = 'static/thumbs/' . md5($category->slug) . $name;
+                    $newPath = 'static/wallpapers/' . md5($category->slug) . $name;
 
                     if ($file->saveAs($newPath . $name)) {
 

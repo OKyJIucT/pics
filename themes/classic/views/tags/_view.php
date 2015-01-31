@@ -1,7 +1,7 @@
 <div class="col-xs-12 col-sm-6 col-md-4 img-gallery">
     <div class="gallery-page-wrap">
         <a href="<?= Y::url('/category/image', array('slug' => $data->image->category->slug, 'id' => $data->image->id, 'title' => $data->image->title)); ?>"><img
-                src="/static/thumbs/<?= Y::getDir($data->image->date, 'thubms'); ?>/<?= $data->image->file; ?>"
+                src="/static/thumbs/<?= md5($data->image->category->slug) ?>/<?= $data->image->file; ?>"
                 title="<?= $data->image->name; ?>"
                 alt="<?= $data->image->name; ?>">
         </a>

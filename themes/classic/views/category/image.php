@@ -4,7 +4,7 @@
 
 
             <img
-                src="/static/thumbs/<?= date("Y/m/d", $model->date); ?>/<?= $model->file; ?>"
+                src="/static/thumbs/<?= md5($model->category->slug) ?>/<?= $model->file; ?>"
                 title="<?= $model->name; ?>"
                 alt="<?= $model->name; ?>">
 

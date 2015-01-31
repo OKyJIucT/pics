@@ -31,6 +31,10 @@ class SiteController extends Controller
                 'actions' => array('logout'),
                 'users' => array('@'),
             ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('test'),
+                'roles' => array('admin'),
+            ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
@@ -140,6 +144,27 @@ class SiteController extends Controller
      */
     public function actionTest()
     {
+        $criteria = new CDbCriteria();
+        $data = Image::model()->findAll($criteria);
+
+        $i = 0;
+        foreach ($data as $item) {
+            $file = Y::md5Dir($item->date) . $item->file;
+
+            $sub = md5($item->category->slug);
+            $dirWallpappers = 'static/wallpapers/' . $sub;
+            if (!is_dir($dirWallpappers)) mkdir($dirWallpappers, 0755, true);
+
+            $newfile = $dirWallpappers . '/' . $item->file;
+
+            if (@copy($file, $newfile)) {
+                unlink($file);
+                $i++;
+            }
+        }
+
+        echo "\nВсего перемещено файлов " . $i;
+
         $this->render('test');
     }
 

@@ -1,3 +1,10 @@
+<?php
+$this->breadcrumbs = array(
+    $model->category->name => array('slug' => $model->category->slug, 'id' => $model->id, 'title' => $model->title),
+    $model->name,
+);
+?>
+
 <div class="row">
     <div class="col-md-8">
         <div class="gallery-page-wrap">

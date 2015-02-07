@@ -1,5 +1,4 @@
 <?php
-/* @var $this SiteController */
 $this->pageTitle = Yii::app()->name;
 ?>
 
@@ -8,7 +7,7 @@ $this->pageTitle = Yii::app()->name;
         'dataProvider' => $dataProvider,
         'itemView' => '_view',
         'ajaxUpdate' => false,
-        'template' => "<div class='col-md-12'>{pager}</div><div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
+        'template' => "<div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
         'pager' => array(
             'maxButtonCount' => '10',
             'prevPageLabel' => '',

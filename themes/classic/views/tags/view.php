@@ -1,3 +1,8 @@
+<?php
+$this->breadcrumbs = array(
+    'Обои по тегу "' . $tag->name . '"',
+);
+?>
 <div class="row">
     <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider' => $dataProvider,

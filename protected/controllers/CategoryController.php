@@ -67,6 +67,7 @@ class CategoryController extends Controller
         $dataProvider = new CActiveDataProvider('Image', $array);
         $this->render('view', array(
             'dataProvider' => $dataProvider,
+            'category' => $category->name
         ));
 
     }

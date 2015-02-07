@@ -2320,3 +2320,10 @@ header {
     margin: 8px 4px;
     border: 1px solid #ccc;
 }
+
+.breadcrumbs {
+    margin-bottom: 30px;
+    padding: 8px;
+    border: 1px solid #eee !important;
+    background: #FAFAFA;
+}

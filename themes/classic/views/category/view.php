@@ -1,9 +1,14 @@
 <div class="row">
+    <?php
+    $this->breadcrumbs = array(
+        $category
+    );
+    ?>
     <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider' => $dataProvider,
         'itemView' => '_view',
         'ajaxUpdate' => false,
-        'template' => "<div class='col-md-12'>{pager}</div><div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
+        'template' => "<div class='clearfix'></div>{items}<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
         'pager' => array(
             'maxButtonCount' => '10',
             'prevPageLabel' => '',

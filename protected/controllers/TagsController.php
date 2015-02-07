@@ -68,6 +68,7 @@ class TagsController extends Controller
 
         $this->render('view', array(
             'dataProvider' => $dataProvider,
+            'tag' => $tag
         ));
 
     }
